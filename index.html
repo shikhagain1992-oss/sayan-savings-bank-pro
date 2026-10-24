@@ -1,308 +1,188 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sayan's Savings Bank Pro</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-:root{--bg:#f3f6fc;--card:#fff;--text:#17243b;--muted:#708099;--blue:#2156d9;--line:#e5eaf3;--green:#0d9b70;--red:#dc4658}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px Arial,sans-serif}
-body.dark{--bg:#101827;--card:#1b2638;--text:#edf3ff;--muted:#aab6ca;--line:#344155}
-button,input{font:inherit}button{cursor:pointer;border:0;border-radius:10px;padding:12px 15px;background:var(--blue);color:white;font-weight:600}
-input{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text)}
-.wrap{max-width:1050px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.brand{font-size:21px;font-weight:800}.muted{color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:18px;margin:14px 0;box-shadow:0 5px 22px #14213a08}
-.hidden{display:none!important}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.balance{background:linear-gradient(135deg,#173b9c,#3978f5);color:white;padding:23px;border-radius:18px}
-.balance strong{display:block;font-size:32px;margin:12px 0}.tabs{display:flex;gap:8px;overflow:auto;margin:16px 0}
-.tabs button{white-space:nowrap;background:var(--card);color:var(--text);border:1px solid var(--line)}
-.tabs button.active{background:var(--blue);color:white}.field{display:grid;gap:7px;margin:12px 0}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1}
-table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);font-size:13px}
-.tablewrap{overflow:auto}.positive{color:var(--green)}.negative{color:var(--red)}
-h2{font-size:19px}h3{font-size:16px}.small{font-size:12px}
-#message{padding:12px;border-radius:10px;margin:12px 0;white-space:pre-wrap}
-@media(max-width:600px){.grid{grid-template-columns:1fr}.wrap{padding:12px}.balance strong{font-size:28px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sayan's Savings Bank Pro</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Firebase Compat Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
 </head>
 <body>
-<div class="wrap">
-  <header class="top">
-    <div class="brand">✦ Savings Bank <span class="muted">Pro</span></div>
-    <div class="row" style="flex:0 0 auto">
-      <button id="themeBtn" type="button">🌙 Theme</button>
-      <button id="logoutBtn" class="hidden" type="button">Logout</button>
-    </div>
-  </header>
 
-  <div id="message" class="hidden"></div>
-
-  <section id="authPanel" class="card">
-    <h2>Welcome back</h2>
-    <p class="muted">Sign in to your personal savings dashboard.</p>
-    <div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@example.com"></div>
-    <div class="field"><label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Enter password"></div>
-    <div class="row">
-      <button id="loginBtn" type="button">Login</button>
-      <button id="signupBtn" type="button">Create account</button>
-    </div>
-    <p class="small muted">Use your own Firebase account. Keep your password private.</p>
-  </section>
-
-  <main id="appPanel" class="hidden">
-    <p class="muted">Signed in as <span id="userEmail"></span></p>
-    <section class="balance">
-      <span>Available balance</span>
-      <strong id="balance">₹0.00</strong>
-      <span class="small">Personal savings tracker · Not a bank account</span>
-    </section>
-
-    <nav class="tabs">
-      <button class="active" data-tab="wallet">Wallet</button>
-      <button data-tab="history">History</button>
-      <button data-tab="goals">Savings Goals</button>
-      <button data-tab="assistant">Assistant</button>
-      <button data-tab="charts">Charts & Export</button>
-    </nav>
-
-    <section id="wallet" class="tab card">
-      <h2>New transaction</h2>
-      <div class="field"><label for="type">Transaction type</label>
-        <select id="type" style="padding:12px;border-radius:10px;border:1px solid var(--line)">
-          <option value="Credit">Add money (Credit)</option>
-          <option value="Debit">Spend money (Debit)</option>
-        </select>
+  <!-- AUTHENTICATION SCREEN -->
+  <div id="auth-screen" class="screen active">
+    <div class="auth-container">
+      <h2>Sayan's Savings Bank Pro</h2>
+      <p class="subtitle">Personal Money Management</p>
+      
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="auth-email" placeholder="Enter your email">
       </div>
-      <div class="field"><label for="amount">Amount (₹)</label><input id="amount" type="number" min="0.01" step="0.01" placeholder="e.g. 100"></div>
-      <div class="field"><label for="desc">Description</label><input id="desc" maxlength="200" placeholder="e.g. Pocket money"></div>
-      <button id="saveBtn" type="button">Save transaction</button>
-      <p class="small muted">Enter only real amounts you want to track.</p>
-    </section>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="auth-password" placeholder="Enter your password">
+      </div>
+      <div class="auth-actions">
+        <button id="btn-login" class="btn primary">Log In</button>
+        <button id="btn-signup" class="btn secondary">Sign Up</button>
+      </div>
+      <p id="auth-error" class="error-text"></p>
+    </div>
+  </div>
 
-    <section id="history" class="tab card hidden">
-      <div class="top"><h2>Transaction history</h2><button id="refreshBtn" type="button">Refresh</button></div>
-      <div class="tablewrap"><table><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Balance</th><th>Description</th></tr></thead><tbody id="historyRows"></tbody></table></div>
-    </section>
+  <!-- MAIN APP WRAPPER -->
+  <div id="app-screen" class="screen">
+    <header class="app-header">
+      <h1>Savings Pro</h1>
+      <div class="user-profile">
+        <span id="user-email-display">user@example.com</span>
+      </div>
+    </header>
 
-    <section id="goals" class="tab card hidden">
-      <h2>Savings goal</h2>
-      <div class="field"><label for="goalName">Goal name</label><input id="goalName" maxlength="80" placeholder="e.g. New bicycle"></div>
-      <div class="field"><label for="goalAmount">Target amount (₹)</label><input id="goalAmount" type="number" min="1" step="1" placeholder="e.g. 5000"></div>
-      <button id="goalBtn" type="button">Save goal</button>
-      <div class="card"><h3 id="savedGoalName">No goal saved</h3><p id="goalProgress" class="muted">Set a target to begin.</p><progress id="goalBar" value="0" max="100" style="width:100%"></progress></div>
-      <p class="small muted">This goal is saved in this browser on this device.</p>
-    </section>
+    <main class="app-content">
+      
+      <!-- WALLET TAB -->
+      <section id="tab-wallet" class="tab-content active">
+        <!-- Bug Fix: Flex layout with gap prevents overlapping -->
+        <div class="wallet-dashboard">
+          <div class="balance-card">
+            <h3>Total Savings Balance</h3>
+            <h1 id="total-balance">₹0.00</h1>
+            <p class="disclaimer">Personal tracker, not a real bank account</p>
+          </div>
 
-    <section id="assistant" class="tab card hidden">
-      <h2>Smart savings assistant</h2>
-      <p class="muted">This is a simple rule-based helper, not a generative AI service.</p>
-      <div class="field"><label for="question">Ask a savings question</label><input id="question" maxlength="250" placeholder="How can I reach my savings goal?"></div>
-      <button id="askBtn" type="button">Get suggestion</button>
-      <p id="answer" aria-live="polite"></p>
-    </section>
+          <div class="quick-actions">
+            <button class="action-btn" onclick="openModal('add-money-modal')">
+              <span class="icon">+</span>
+              Add
+            </button>
+            <button class="action-btn" onclick="openModal('spend-money-modal')">
+              <span class="icon">-</span>
+              Spend
+            </button>
+            <button class="action-btn" onclick="openModal('send-money-modal')">
+              <span class="icon">➔</span>
+              Send
+            </button>
+          </div>
 
-    <section id="charts" class="tab card hidden">
-      <h2>Credit vs debit</h2>
-      <canvas id="chart" height="220"></canvas>
-      <button id="exportBtn" type="button">Export history as CSV</button>
-      <p class="small muted">CSV contains the transaction history loaded from your sheet.</p>
-    </section>
-  </main>
-  <footer class="small muted" style="padding:18px 0">Sayan's Savings Bank Pro · Personal tracking project</footer>
-</div>
+          <div class="recent-preview">
+            <h3>Recent Transactions</h3>
+            <ul id="recent-transactions-list" class="tx-list">
+              <!-- JS Populated -->
+            </ul>
+          </div>
+        </div>
+      </section>
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyCjOtHnKPFS2821_jQT6DllaSAqfYDF-iE",
-  authDomain: "sayan-savings-bank-pro.firebaseapp.com",
-  projectId: "sayan-savings-bank-pro",
-  storageBucket: "sayan-savings-bank-pro.firebasestorage.app",
-  messagingSenderId: "575662816526",
-  appId: "1:575662816526:web:e18c6628561d58830bab5f"
-};
+      <!-- HISTORY TAB -->
+      <section id="tab-history" class="tab-content">
+        <h2>Transaction History</h2>
+        <div class="filters">
+          <button class="btn secondary small" onclick="renderHistory('all')">All</button>
+          <button class="btn secondary small" onclick="renderHistory('income')">Income</button>
+          <button class="btn secondary small" onclick="renderHistory('expense')">Expenses</button>
+        </div>
+        <ul id="full-history-list" class="tx-list">
+          <!-- JS Populated -->
+        </ul>
+      </section>
 
-// Replace this with your deployed Apps Script Web App URL.
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqHkEx8bksySOqGVpRNkcgZq-TrFw6Bc3WljBSf4QnrSFxGhLKknK2x3pUzICNGGx7/exec";
+      <!-- GOALS TAB -->
+      <section id="tab-goals" class="tab-content">
+        <h2>Savings Goals</h2>
+        <button class="btn primary" onclick="openModal('add-goal-modal')">+ New Goal</button>
+        <div id="goals-list" class="goals-container">
+          <!-- JS Populated -->
+        </div>
+      </section>
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-let historyData = [];
-let chartInstance = null;
+      <!-- INSIGHTS TAB -->
+      <section id="tab-insights" class="tab-content">
+        <h2>Financial Insights</h2>
+        <div class="chart-container">
+          <canvas id="incomeExpenseChart"></canvas>
+        </div>
+      </section>
 
-const $ = id => document.getElementById(id);
-function showMessage(text, error=false) {
-  $("message").textContent = text;
-  $("message").classList.remove("hidden");
-  $("message").style.background = error ? "#ffe8eb" : "#e3f8ef";
-  $("message").style.color = error ? "#8c1d2b" : "#075d43";
-}
-function money(value) {
-  return new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR"}).format(Number(value)||0);
-}
-function checkScriptUrl() {
-  if (!SCRIPT_URL.startsWith("https://script.google.com/")) {
-    throw new Error("First replace SCRIPT_URL with your deployed Apps Script Web App URL.");
-  }
-}
-async function api(action, data={}) {
-  checkScriptUrl();
-  const user = auth.currentUser;
-  if (!user) throw new Error("Please log in first.");
-  const token = await user.getIdToken();
-  let response;
-  if (action === "get") {
-    const params = new URLSearchParams({action, token});
-    response = await fetch(SCRIPT_URL + "?" + params.toString());
-  } else {
-    const params = new URLSearchParams({...data, action, token});
-    response = await fetch(SCRIPT_URL, {method:"POST", body:params});
-  }
-  if (!response.ok) throw new Error("Server request failed: " + response.status);
-  const result = await response.json();
-  if (result.status === "error") throw new Error(result.message || "Request failed.");
-  return result;
-}
-function renderHistory() {
-  const body = $("historyRows");
-  body.replaceChildren();
-  if (!historyData.length) {
-    const tr = document.createElement("tr"), td = document.createElement("td");
-    td.colSpan = 5; td.textContent = "No transactions yet.";
-    tr.appendChild(td); body.appendChild(tr);
-  } else {
-    historyData.forEach(item => {
-      const tr = document.createElement("tr");
-      const date = new Date(item.date);
-      const values = [
-        Number.isNaN(date.getTime()) ? item.date : date.toLocaleString(),
-        item.type, money(item.amount), money(item.balance), item.description
-      ];
-      values.forEach((value, index) => {
-        const td = document.createElement("td");
-        td.textContent = value == null ? "" : String(value);
-        if (index === 1) td.className = item.type === "Credit" ? "positive" : "negative";
-        tr.appendChild(td);
-      });
-      body.appendChild(tr);
-    });
-  }
-  drawChart();
-  updateGoalProgress();
-}
-async function refreshData() {
-  const result = await api("get");
-  $("balance").textContent = money(result.balance);
-  historyData = Array.isArray(result.history) ? result.history : [];
-  renderHistory();
-}
-function drawChart() {
-  const credits = historyData.filter(x=>x.type==="Credit").reduce((s,x)=>s+Number(x.amount||0),0);
-  const debits = historyData.filter(x=>x.type==="Debit").reduce((s,x)=>s+Number(x.amount||0),0);
-  if (chartInstance) chartInstance.destroy();
-  chartInstance = new Chart($("chart"), {
-    type:"doughnut",
-    data:{labels:["Credit","Debit"],datasets:[{data:[credits,debits]}]},
-    options:{responsive:true,plugins:{legend:{position:"bottom"}}}
-  });
-}
-auth.onAuthStateChanged(user => {
-  $("authPanel").classList.toggle("hidden", !!user);
-  $("appPanel").classList.toggle("hidden", !user);
-  $("logoutBtn").classList.toggle("hidden", !user);
-  if (user) {
-    $("userEmail").textContent = user.email || "";
-    refreshData().catch(err=>showMessage(err.message,true));
-  }
-});
-$("loginBtn").onclick = async () => {
-  try {
-    await auth.signInWithEmailAndPassword($("email").value.trim(), $("password").value);
-    showMessage("Login successful.");
-  } catch (err) { showMessage(err.message,true); }
-};
-$("signupBtn").onclick = async () => {
-  try {
-    await auth.createUserWithEmailAndPassword($("email").value.trim(), $("password").value);
-    showMessage("Account created. Only the authorized owner email can use the savings sheet.");
-  } catch (err) { showMessage(err.message,true); }
-};
-$("logoutBtn").onclick = () => auth.signOut();
-$("saveBtn").onclick = async () => {
-  try {
-    const amount = Number($("amount").value);
-    const type = $("type").value;
-    const desc = $("desc").value.trim();
-    if (!Number.isFinite(amount) || amount <= 0) throw new Error("Enter an amount greater than zero.");
-    if (!desc) throw new Error("Enter a transaction description.");
-    $("saveBtn").disabled = true;
-    const result = await api("add",{type,amount:String(amount),desc});
-    $("balance").textContent = money(result.balance);
-    $("amount").value = ""; $("desc").value = "";
-    await refreshData();
-    showMessage("Transaction saved successfully.");
-  } catch (err) { showMessage(err.message,true); }
-  finally { $("saveBtn").disabled = false; }
-};
-$("refreshBtn").onclick = () => refreshData().catch(err=>showMessage(err.message,true));
-document.querySelectorAll("[data-tab]").forEach(button => {
-  button.onclick = () => {
-    document.querySelectorAll("[data-tab]").forEach(b=>b.classList.toggle("active",b===button));
-    document.querySelectorAll(".tab").forEach(s=>s.classList.toggle("hidden",s.id!==button.dataset.tab));
-    if (button.dataset.tab==="charts") drawChart();
-  };
-});
-$("themeBtn").onclick = () => document.body.classList.toggle("dark");
-$("goalBtn").onclick = () => {
-  const name = $("goalName").value.trim(), target = Number($("goalAmount").value);
-  if (!name || !Number.isFinite(target) || target <= 0) {
-    showMessage("Enter a goal name and target greater than zero.",true); return;
-  }
-  localStorage.setItem("savingsGoal",JSON.stringify({name,target}));
-  updateGoalProgress(); showMessage("Goal saved on this device.");
-};
-function updateGoalProgress() {
-  const raw = localStorage.getItem("savingsGoal");
-  if (!raw) return;
-  const goal = JSON.parse(raw);
-  $("savedGoalName").textContent = goal.name;
-  const balance = historyData.length ? Number(historyData[0].balance)||0 : 0;
-  const pct = Math.min(100,Math.max(0,balance/goal.target*100));
-  $("goalProgress").textContent = money(balance) + " of " + money(goal.target) + " (" + pct.toFixed(1) + "%)";
-  $("goalBar").value = pct;
-}
-(function loadGoal(){
-  try {
-    const goal = JSON.parse(localStorage.getItem("savingsGoal")||"null");
-    if (goal) { $("goalName").value=goal.name; $("goalAmount").value=goal.target; }
-  } catch (_) {}
-})();
-$("askBtn").onclick = () => {
-  const q = $("question").value.trim().toLowerCase();
-  const balance = historyData.length ? Number(historyData[0].balance)||0 : 0;
-  const goal = JSON.parse(localStorage.getItem("savingsGoal")||"null");
-  let answer;
-  if (!q) answer = "Write a question first.";
-  else if (q.includes("balance")) answer = "Your current tracked balance is " + money(balance) + ".";
-  else if (goal) {
-    const remaining = Math.max(0,goal.target-balance);
-    answer = "For your goal '" + goal.name + "', you still need " + money(remaining) + ". Try saving a small, realistic amount regularly.";
-  } else answer = "Set a realistic savings goal, record each transaction, and review your spending every week.";
-  $("answer").textContent = answer;
-};
-$("exportBtn").onclick = () => {
-  const quote = v => '"' + String(v ?? "").replace(/"/g,'""') + '"';
-  const rows = [["Date","Type","Amount","Balance","Description"],
-    ...historyData.map(x=>[x.date,x.type,x.amount,x.balance,x.description])];
-  const csv = "\uFEFF" + rows.map(r=>r.map(quote).join(",")).join("\r\n");
-  const url = URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));
-  const a = document.createElement("a"); a.href=url; a.download="savings-history.csv"; a.click();
-  URL.revokeObjectURL(url);
-};
-</script>
+      <!-- ASSISTANT TAB -->
+      <section id="tab-assistant" class="tab-content">
+        <h2>Financial Assistant</h2>
+        <div class="assistant-box">
+          <p id="assistant-message">Hello! I am your simple financial helper. Based on your records, I will provide insights here once you add transactions.</p>
+          <button class="btn secondary" onclick="generateAssistantInsight()">Refresh Insights</button>
+        </div>
+      </section>
+
+      <!-- PROFILE TAB -->
+      <section id="tab-profile" class="tab-content">
+        <h2>Profile & Settings</h2>
+        <div class="settings-card">
+          <p><strong>Account:</strong> <span id="profile-email"></span></p>
+          <button class="btn secondary full-width" onclick="exportCSV()">Export CSV</button>
+          <button class="btn secondary full-width" onclick="toggleTheme()">Toggle Dark Mode</button>
+          <button class="btn danger full-width" id="btn-logout">Log Out</button>
+          
+          <div class="disclaimer-box mt-4">
+            <small>Disclaimer: Sayan's Savings Bank Pro is a personal money-management tracker. It does not provide real bank accounts or initiate real payments.</small>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- BOTTOM NAVIGATION (MOBILE) -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-target="tab-wallet">Wallet</button>
+      <button class="nav-item" data-target="tab-history">History</button>
+      <button class="nav-item" data-target="tab-goals">Goals</button>
+      <button class="nav-item" data-target="tab-insights">Insights</button>
+      <button class="nav-item" data-target="tab-profile">Profile</button>
+    </nav>
+  </div>
+
+  <!-- MODALS -->
+  <div id="add-money-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('add-money-modal')">&times;</span>
+      <h3>Add Money (Income)</h3>
+      <form id="add-money-form">
+        <input type="number" id="add-amount" placeholder="Amount (₹)" required min="1">
+        <input type="text" id="add-desc" placeholder="Description" required>
+        <button type="submit" class="btn primary full-width">Save Income</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="spend-money-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('spend-money-modal')">&times;</span>
+      <h3>Spend Money (Expense)</h3>
+      <form id="spend-money-form">
+        <input type="number" id="spend-amount" placeholder="Amount (₹)" required min="1">
+        <input type="text" id="spend-desc" placeholder="Description/Category" required>
+        <button type="submit" class="btn primary full-width">Save Expense</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="send-money-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('send-money-modal')">&times;</span>
+      <h3>Record Transfer</h3>
+      <p class="small-text">This records a simulated outgoing transfer in your tracker.</p>
+      <form id="send-money-form">
+        <input type="text" id="send-recipient" placeholder="Recipient Name" required>
+        <input type="number" id="send-amount" placeholder="Amount (₹)" required min="1">
+        <button type="submit" class="btn primary full-width">Record Transfer</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
 </body>
-  </html>
-  
+          </html>
+              
