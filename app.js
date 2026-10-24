@@ -76,19 +76,32 @@ function closeModal(id) {
 // --- 4. DATA FETCHING (GAS Backend) ---
 async function fetchData() {
   try {
-    // Note: Due to standard GAS CORS rules, simple GET is allowed if configured right.
-    const response = await fetch(GAS_WEB_APP_URL + "?action=getTransactions");
-    if (response.ok) {
-       const data = await response.json();
-       transactions = data.transactions || [];
-    } else {
-       // Mock data fallback if GAS needs CORS configuration / auth
-       transactions = JSON.parse(localStorage.getItem('mock_tx')) || [];
+    // Fetch directly from your existing URL without extra parameters
+    const response = await fetch(GAS_WEB_APP_URL);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const data = await response.json();
+    
+    // Adapt to whatever JSON format your original Apps Script uses
+    if (Array.isArray(data)) {
+        transactions = data; // If it returns a raw array
+    } else if (data && data.transactions) {
+        transactions = data.transactions; // If it returns { transactions: [...] }
+    } else if (data && data.data) {
+        transactions = data.data; // If it returns { data: [...] }
+    } else {
+        transactions = [];
+    }
+    
   } catch (error) {
-    console.log("Using local fallback due to GAS CORS/network error.");
+    console.error("Connection to Google Sheets failed:", error);
+    // If it fails, fallback to local storage so the app doesn't break
     transactions = JSON.parse(localStorage.getItem('mock_tx')) || [];
   }
+  
   updateUI();
 }
 
@@ -233,4 +246,5 @@ function renderChart() {
       }]
     }
   });
-}
+                                      }
+               
