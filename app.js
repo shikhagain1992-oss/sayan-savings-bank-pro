@@ -1,16 +1,13 @@
-
 // Sayan's Savings Bank Pro - Main Logic
 
 // --- 1. CONFIGURATION ---
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyD7hR5HyZ5rKZAr0cOSl0ol8QZSYbeP4Ww",
-  authDomain: "callmonitor-989b3.firebaseapp.com",
-  projectId: "callmonitor-989b3",
-  storageBucket: "callmonitor-989b3.firebasestorage.app",
-  messagingSenderId: "368292626146",
-  appId: "1:368292626146:web:c4dbcffed90a9946cf28bb",
-  measurementId: "G-JSSLYYJRDD"
+  apiKey: "AIzaSyCjOtHnKPFS2821_jQT6DllaSAqfYDF-iE",
+  authDomain: "sayan-savings-bank-pro.firebaseapp.com",
+  projectId: "sayan-savings-bank-pro",
+  storageBucket: "sayan-savings-bank-pro.firebasestorage.app",
+  messagingSenderId: "575662816526",
+  appId: "1:575662816526:web:e18c6628561d58830bab5f"
 };
 
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwqHkEx8bksySOqGVpRNkcgZq-TrFw6Bc3WljBSf4QnrSFxGhLKknK2x3pUzICNGGx7/exec";
@@ -236,5 +233,4 @@ function renderChart() {
       }]
     }
   });
-  }
-  
+}
