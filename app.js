@@ -1,4 +1,3 @@
-
 // Sayan's Savings Bank Pro - Main Logic
 
 // --- 1. CONFIGURATION ---
@@ -11,6 +10,7 @@ const firebaseConfig = {
   appId: "1:575662816526:web:e18c6628561d58830bab5f"
 };
 
+// IMPORTANT: Ensure this is your correct, active Apps Script Web App URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwqHkEx8bksySOqGVpRNkcgZq-TrFw6Bc3WljBSf4QnrSFxGhLKknK2x3pUzICNGGx7/exec";
 
 // Initialize Firebase
@@ -35,7 +35,7 @@ auth.onAuthStateChanged((user) => {
     appScreen.classList.add('active');
     document.getElementById('user-email-display').textContent = user.email;
     document.getElementById('profile-email').textContent = user.email;
-    refreshData(); // Load data from Google Sheets on login
+    refreshData().catch(err => alert("Connection Error: " + err.message));
   } else {
     appScreen.classList.remove('active');
     authScreen.classList.add('active');
@@ -59,20 +59,14 @@ document.getElementById('btn-signup').onclick = async () => {
 document.getElementById('btn-logout').onclick = () => auth.signOut();
 
 
-// --- 3. SECURE GOOGLE SHEETS API CONNECTION ---
-// This uses your original, working logic with token validation
+// --- 3. EXACT CLONE OF YOUR ORIGINAL SECURE API CONNECTION ---
 async function api(action, data={}) {
   const user = auth.currentUser;
   if (!user) throw new Error("Please log in first.");
   
-  let token = "";
-  try {
-     token = await user.getIdToken();
-  } catch(e) {
-     console.warn("Could not get Firebase token.");
-  }
-
+  const token = await user.getIdToken();
   let response;
+  
   if (action === "get") {
     const params = new URLSearchParams({action, token});
     response = await fetch(SCRIPT_URL + "?" + params.toString());
@@ -88,14 +82,10 @@ async function api(action, data={}) {
 }
 
 async function refreshData() {
-  try {
-    const result = await api("get");
-    currentBalance = result.balance || 0;
-    transactions = Array.isArray(result.history) ? result.history : [];
-    updateUI();
-  } catch (err) {
-    console.error("Failed to load data:", err.message);
-  }
+  const result = await api("get");
+  currentBalance = result.balance || 0;
+  transactions = Array.isArray(result.history) ? result.history : [];
+  updateUI();
 }
 
 // --- 4. TRANSACTION LOGIC (Add & Spend) ---
@@ -105,12 +95,11 @@ async function handleTransactionSubmit(type, amount, desc, btnId, modalId) {
     btn.disabled = true;
     btn.textContent = "Saving...";
     
-    // Pass exactly what your GAS expects: "Credit" or "Debit"
     const result = await api("add", { type: type, amount: String(amount), desc: desc });
-    
     currentBalance = result.balance;
     await refreshData();
     closeModal(modalId);
+    alert("Transaction saved successfully.");
   } catch (err) {
     alert("Error saving transaction: " + err.message);
   } finally {
@@ -141,12 +130,9 @@ function formatMoney(value) {
 }
 
 function updateUI() {
-  // Update Balance Card
   document.getElementById('total-balance').textContent = formatMoney(currentBalance);
-  
   renderHistory('all');
   
-  // Render Recent Preview (last 3 items)
   const recentList = document.getElementById('recent-transactions-list');
   recentList.innerHTML = '';
   transactions.slice(0, 3).forEach(tx => {
@@ -167,7 +153,6 @@ function renderHistory(filter) {
   
   let filtered = transactions;
   if (filter !== 'all') {
-    // Check against "Credit" or "Debit"
     filtered = transactions.filter(t => t.type.toLowerCase() === filter);
   }
   
@@ -181,7 +166,6 @@ function createTxElement(tx) {
   li.className = 'tx-item';
   const isCredit = tx.type === 'Credit';
   
-  // Try to parse the date cleanly
   let dateStr = tx.date;
   const d = new Date(tx.date);
   if (!Number.isNaN(d.getTime())) dateStr = d.toLocaleDateString();
@@ -203,10 +187,8 @@ document.querySelectorAll('.nav-item').forEach(btn => {
   btn.addEventListener('click', (e) => {
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    
     e.target.classList.add('active');
     document.getElementById(e.target.dataset.target).classList.add('active');
-    
     if (e.target.dataset.target === 'tab-insights') renderChart();
   });
 });
@@ -218,12 +200,11 @@ function closeModal(id) {
 }
 
 
-// --- 7. SAVINGS GOALS (From original logic) ---
+// --- 7. SAVINGS GOALS ---
 document.getElementById('goal-form').onsubmit = (e) => {
   e.preventDefault();
   const name = document.getElementById("goal-name").value.trim();
   const target = Number(document.getElementById("goal-amount").value);
-  
   localStorage.setItem("savingsGoal", JSON.stringify({name,target}));
   updateGoalProgress(); 
   closeModal('add-goal-modal');
@@ -296,4 +277,5 @@ function renderChart() {
       }]
     }
   });
-}
+                                          }
+                                          
