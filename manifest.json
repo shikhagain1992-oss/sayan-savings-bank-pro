@@ -1,0 +1,21 @@
+{
+  "name": "Sayan's Savings Bank Pro",
+  "short_name": "Savings Pro",
+  "description": "Personal Money Management App",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F5F7FA",
+  "theme_color": "#0A192F",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
