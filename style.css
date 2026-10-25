@@ -1,12 +1,14 @@
+/* MODERN CSS: Fixed Dialog layout and z-index overlap issues */
+
 :root {
   --bg-color: oklch(0.97 0.01 250);
   --text-main: oklch(0.2 0.02 250);
   --text-muted: oklch(0.5 0.02 250);
   
-  --glass-bg: color-mix(in srgb, white 70%, transparent);
-  --glass-border: rgba(255, 255, 255, 0.5);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-  --glass-blur: blur(16px);
+  --glass-bg: color-mix(in srgb, white 80%, transparent);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --glass-blur: blur(20px);
   
   --primary: oklch(0.45 0.15 260);
   --primary-hover: oklch(0.35 0.15 260);
@@ -22,8 +24,8 @@
   --text-main: oklch(0.98 0 0);
   --text-muted: oklch(0.7 0.02 250);
   
-  --glass-bg: color-mix(in srgb, oklch(0.2 0.02 250) 60%, transparent);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: color-mix(in srgb, oklch(0.2 0.02 250) 80%, transparent);
+  --glass-border: rgba(255, 255, 255, 0.1);
   --secondary: oklch(0.25 0.05 260);
 }
 
@@ -40,9 +42,8 @@ body {
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
   
-  &:has(dialog[open]) .app-content,
-  &:has(dialog[open]) .app-header,
-  &:has(dialog[open]) .bottom-nav {
+  /* Fixed blur application to prevent layout breaking */
+  &:has(dialog[open]) #app-screen {
     filter: blur(5px);
     pointer-events: none;
     transition: filter 0.3s ease;
@@ -68,12 +69,7 @@ h3 { font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 500; }
   box-shadow: var(--glass-shadow);
   padding: 20px;
   
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  }
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .btn { 
@@ -127,7 +123,7 @@ input {
 
 .app-header { 
   display: flex; justify-content: space-between; align-items: center; 
-  padding: 16px 24px; position: sticky; top: 0; z-index: 10; 
+  padding: 16px 24px; position: sticky; top: 0; z-index: 50; /* Z-index fix */
   border-radius: 0 0 24px 24px; border-top: none;
 }
 .app-content { padding: 24px; padding-bottom: 100px; max-width: 800px; margin: 0 auto; }
@@ -168,6 +164,7 @@ input {
 .action-btn { 
   display: flex; flex-direction: column; align-items: center; gap: 10px; 
   color: var(--text-main); font-weight: 600; padding: 16px 8px;
+  background: var(--white);
   
   .icon { 
     background: var(--secondary); color: var(--primary);
@@ -201,7 +198,7 @@ input {
   position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
   width: calc(100% - 32px); max-width: 600px;
   display: flex; justify-content: space-around; padding: 12px; 
-  border-radius: 24px; z-index: 100; 
+  border-radius: 24px; z-index: 50; /* Z-index fix */
 }
 .nav-item { 
   background: none; border: none; color: var(--text-muted); 
@@ -211,37 +208,42 @@ input {
   &.active { color: var(--primary); background: var(--secondary); }
 }
 
+/* -----------------------------
+   NATIVE HTML5 DIALOGS - FIXED Z-INDEX & OVERFLOW
+----------------------------- */
 .modern-dialog {
   margin: auto;
   border: 1px solid var(--glass-border);
   border-radius: 24px;
+  background: var(--bg-color); /* Fallback */
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
   padding: 24px;
   width: calc(100% - 32px);
   max-width: 420px;
   color: var(--text-main);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  z-index: 9999; /* Ensure modal is on top */
   
-  transition: display 0.3s allow-discrete, overlay 0.3s allow-discrete, opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  opacity: 0;
-  transform: scale(0.95) translateY(20px);
+  /* Hide the modal fully when not open */
+  display: none;
   
   &[open] {
-    opacity: 1;
-    transform: scale(1) translateY(0);
+    display: block; /* Show only when open */
+    animation: dialogFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
   
   &::backdrop {
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(4px);
-    transition: display 0.3s allow-discrete, overlay 0.3s allow-discrete, opacity 0.3s ease;
-    opacity: 0;
+    -webkit-backdrop-filter: blur(4px);
   }
-  
-  &[open]::backdrop {
-    opacity: 1;
-  }
+}
+
+@keyframes dialogFadeIn {
+  from { opacity: 0; transform: scale(0.95) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .dialog-header {
@@ -259,5 +261,5 @@ input {
     
     &:hover { background: var(--primary); color: white; }
   }
-                    }
-    
+  }
+                        
