@@ -1,244 +1,254 @@
-:root {
-  --bg-color: oklch(0.97 0.01 250);
-  --text-main: oklch(0.2 0.02 250);
-  --text-muted: oklch(0.5 0.02 250);
-  
-  --glass-bg: color-mix(in srgb, white 80%, transparent);
-  --glass-border: rgba(255, 255, 255, 0.8);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --glass-blur: blur(20px);
-  
-  --primary: oklch(0.45 0.15 260);
-  --primary-hover: oklch(0.35 0.15 260);
-  --secondary: oklch(0.9 0.05 260);
-  --green: oklch(0.65 0.18 150);
-  --red: oklch(0.6 0.2 25);
-  
-  --radius: 16px;
-}
-
-[data-theme="dark"] {
-  --bg-color: oklch(0.15 0.02 250);
-  --text-main: oklch(0.98 0 0);
-  --text-muted: oklch(0.7 0.02 250);
-  
-  --glass-bg: color-mix(in srgb, oklch(0.2 0.02 250) 80%, transparent);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --secondary: oklch(0.25 0.05 260);
-}
-
+/* =========================================
+   BASE RESET & TYPOGRAPHY
+========================================= */
 * { 
-  box-sizing: border-box; 
   margin: 0; 
   padding: 0; 
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif; 
+  box-sizing: border-box; 
+  font-family: 'Outfit', sans-serif; 
+  -webkit-tap-highlight-color: transparent; /* Removes default blue tap highlight on mobile */
 }
 
 body { 
-  background-color: var(--bg-color); 
-  color: var(--text-main); 
-  overflow-x: hidden;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  background-color: #F5F7FA; 
+  color: #0A192F; 
+  overflow-x: hidden; 
 }
 
-h1 { font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 700; }
-h2 { font-size: clamp(1.2rem, 3vw, 1.7rem); font-weight: 600; margin-bottom: 12px; }
-h3 { font-size: clamp(1rem, 2vw, 1.2rem); font-weight: 500; }
-.small-text { font-size: clamp(0.75rem, 1.5vw, 0.85rem); color: var(--text-muted); }
-
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: block; }
-.full-width { width: 100%; margin-top: 10px; }
-.mt-4 { margin-top: 16px; }
-
+/* =========================================
+   LAG-FREE FROSTED GLASS (iOS/Win11)
+========================================= */
 .glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  box-shadow: var(--glass-shadow);
-  padding: 20px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.glass-panel:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-}
-
-.btn { 
-  padding: 12px 24px; 
-  border-radius: 12px; 
-  border: none; 
-  font-weight: 600; 
-  font-size: 1rem;
-  cursor: pointer; 
-  transition: all 0.2s ease; 
-}
-.btn:active { transform: scale(0.95); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-.btn.primary { background-color: var(--primary); color: white; box-shadow: 0 4px 15px color-mix(in srgb, var(--primary) 40%, transparent); }
-.btn.primary:hover:not(:disabled) { background-color: var(--primary-hover); }
-.btn.secondary { background-color: var(--secondary); color: var(--primary); }
-.btn.danger { background-color: var(--red); color: white; }
-.btn.small { padding: 6px 14px; font-size: 0.85rem; }
-
-input { 
-  width: 100%; 
-  padding: 14px; 
-  margin-bottom: 12px; 
-  border: 1px solid var(--glass-border); 
-  border-radius: 12px; 
-  background: color-mix(in srgb, var(--glass-bg) 50%, transparent);
-  color: var(--text-main); 
-  font-size: 1rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  
+  /* GPU Hardware Acceleration to prevent lag */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, backdrop-filter;
 }
 
-.auth-container { max-width: 400px; margin: 10vh auto; text-align: center; }
-.auth-actions { display: flex; gap: 12px; flex-direction: column; margin-top: 10px; }
-
-.app-header { 
-  display: flex; justify-content: space-between; align-items: center; 
-  padding: 16px 24px; position: sticky; top: 0; z-index: 50; 
-  border-radius: 0 0 24px 24px; border-top: none;
+/* =========================================
+   SCREENS & FLUID TAB SWITCHING
+========================================= */
+.screen { 
+  display: none; 
+  min-height: 100vh; 
+  padding-bottom: 90px; 
 }
-.app-content { padding: 24px; padding-bottom: 100px; max-width: 800px; margin: 0 auto; }
 
-.tab-content { display: none; }
+.screen.active { 
+  display: block; 
+}
+
+.tab-content { 
+  display: none; 
+  padding: 20px; 
+}
+
 .tab-content.active { 
   display: block; 
-  animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+  animation: slideInWin11 0.15s ease-out forwards; 
 }
 
-@keyframes slideUpFade { 
-  from { opacity: 0; transform: translateY(20px); } 
-  to { opacity: 1; transform: translateY(0); } 
+@keyframes slideInWin11 {
+  0% { opacity: 0; transform: translateX(15px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* =========================================
+   APP HEADER & WALLET DASHBOARD
+========================================= */
+.app-header { 
+  padding: 20px; 
+  margin: 15px; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
 }
 
 .balance-card { 
-  background: 
-    radial-gradient(circle at 0% 0%, oklch(0.6 0.15 250), transparent 70%),
-    radial-gradient(circle at 100% 100%, oklch(0.4 0.2 280), transparent 70%),
-    var(--primary);
-  color: #FFF; 
-  padding: 32px; 
-  border-radius: 24px; 
-  box-shadow: 0 16px 32px color-mix(in srgb, var(--primary) 30%, transparent); 
-  position: relative;
-  overflow: hidden;
+  text-align: center; 
+  padding: 30px 20px; 
 }
-.balance-card::after {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
-  pointer-events: none;
-}
-.balance-card h3 { opacity: 0.85; margin-bottom: 8px;}
-.balance-card h1 { margin-bottom: 8px; font-variant-numeric: tabular-nums; }
 
-.quick-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 10px; }
+.balance-card h1 { 
+  font-size: 2.8rem; 
+  margin: 10px 0; 
+  color: #0A192F; 
+}
+
+.disclaimer, .small-text { 
+  font-size: 0.8rem; 
+  opacity: 0.7; 
+}
+
+/* =========================================
+   BUTTONS & INSTANT TOUCH RESPONSE
+========================================= */
+.quick-actions { 
+  display: flex; 
+  gap: 12px; 
+  margin-top: 20px; 
+}
+
 .action-btn { 
-  display: flex; flex-direction: column; align-items: center; gap: 10px; 
-  color: var(--text-main); font-weight: 600; padding: 16px 8px;
-  background: var(--white);
+  flex: 1; 
+  padding: 15px; 
+  border: none; 
+  text-align: center; 
+  font-weight: 600; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 8px;
 }
+
 .action-btn .icon { 
-  background: var(--secondary); color: var(--primary);
-  width: 48px; height: 48px; border-radius: 50%; 
-  display: flex; align-items: center; justify-content: center; font-size: 1.4rem; 
-  transition: transform 0.3s ease;
+  font-size: 1.5rem; 
 }
-.action-btn:hover .icon { transform: scale(1.1) rotate(5deg); }
 
-.tx-list { list-style: none; display: flex; flex-direction: column; gap: 12px;}
-.tx-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; }
-.tx-amount { font-weight: 700; font-size: 1.1rem; }
-.tx-amount.Credit { color: var(--green); }
-.tx-amount.Debit { color: var(--text-main); }
-
-.modern-progress {
-  width: 100%; height: 12px; border-radius: 10px;
-  background-color: var(--secondary);
-  overflow: hidden; border: none; margin-top: 10px;
+.btn { 
+  padding: 14px 20px; 
+  border-radius: 12px; 
+  border: none; 
+  font-weight: 600; 
+  cursor: pointer; 
 }
-.modern-progress::-webkit-progress-bar { background-color: var(--secondary); }
-.modern-progress::-webkit-progress-value { background-color: var(--primary); border-radius: 10px; transition: width 0.5s ease; }
 
+.btn.primary { background: #0A192F; color: #fff; }
+.btn.secondary { background: rgba(10, 25, 47, 0.1); color: #0A192F; }
+.btn.danger { background: #FF4C4C; color: #fff; }
+.full-width { width: 100%; margin-top: 10px; }
+
+/* Anti-Lag Button Animations */
+.action-btn, .btn, .nav-item {
+  touch-action: manipulation; /* Kills the 300ms tap delay */
+  transition: transform 0.1s ease-out, background-color 0.2s;
+}
+
+.action-btn:active, .btn:active { 
+  transform: scale(0.94); 
+}
+
+/* =========================================
+   BOTTOM NAVIGATION
+========================================= */
 .bottom-nav { 
   position: fixed; 
-  bottom: 16px; 
-  left: 16px; 
-  right: 16px; 
-  max-width: 600px;
-  margin: 0 auto; 
+  bottom: 15px; 
+  left: 15px; 
+  right: 15px; 
   display: flex; 
   justify-content: space-around; 
-  align-items: center;
-  padding: 12px 8px; 
-  border-radius: 24px; 
-  z-index: 50; 
+  padding: 12px; 
+  z-index: 100; 
 }
-.nav-item { 
-  background: none; border: none; color: var(--text-muted); 
-  font-size: clamp(0.7rem, 2.5vw, 0.85rem); 
-  font-weight: 600; cursor: pointer; padding: 8px 10px;
-  border-radius: 12px; transition: all 0.3s ease;
-  white-space: nowrap; 
-}
-.nav-item.active { color: var(--primary); background: var(--secondary); }
 
-/* --- NATIVE HTML5 DIALOGS FIX --- */
-.modern-dialog {
-  margin: auto;
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  padding: 24px;
-  width: calc(100% - 32px);
-  max-width: 420px;
-  color: var(--text-main);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  z-index: 9999; 
+.nav-item { 
+  background: none; 
+  border: none; 
+  font-weight: 600; 
+  color: #888; 
+  padding: 10px; 
+}
+
+.nav-item.active { 
+  color: #0A192F; 
+  transform: scale(1.05); 
+}
+
+.nav-item:active { 
+  transform: scale(0.92); 
+}
+
+/* =========================================
+   MODALS (FAST WINDOWS 11 POP-UP)
+========================================= */
+.modern-dialog { 
+  border: none; 
+  border-radius: 20px; 
+  padding: 25px; 
+  width: 90%; 
+  max-width: 400px; 
+  margin: auto; 
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   
-  display: none; /* This will force it to hide on older browsers */
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+.modern-dialog::backdrop { 
+  background: rgba(0, 0, 0, 0.5); 
 }
 
 .modern-dialog[open] {
-  display: block; 
-  animation: dialogFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: fastPop 0.15s ease-out forwards;
 }
 
-.modern-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+@keyframes fastPop {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
-@keyframes dialogFadeIn {
-  from { opacity: 0; transform: scale(0.95) translateY(20px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+.dialog-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px; 
 }
 
-.dialog-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.dialog-header h3 { margin: 0; }
 .close-btn { 
-  background: var(--secondary); color: var(--text-main); 
-  border: none; border-radius: 50%; width: 32px; height: 32px; 
-  font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s;
+  background: none; 
+  border: none; 
+  font-size: 1.8rem; 
+  line-height: 1; 
+  padding: 5px; 
 }
-.close-btn:hover { background: var(--primary); color: white; }
+
+/* =========================================
+   INPUT FORMS & LISTS
+========================================= */
+form input { 
+  width: 100%; 
+  padding: 14px; 
+  margin-bottom: 15px; 
+  border: 1px solid rgba(0,0,0,0.1); 
+  border-radius: 12px; 
+  background: rgba(255,255,255,0.7); 
+  font-size: 1rem;
+  outline: none;
+}
+
+form input:focus {
+  border-color: #0A192F;
+}
+
+.tx-list { 
+  list-style: none; 
+  margin-top: 15px; 
+}
+
+.tx-list li { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: 15px; 
+  border-bottom: 1px solid rgba(0,0,0,0.05); 
+}
+
+.modern-progress { 
+  width: 100%; 
+  height: 12px; 
+  border-radius: 6px; 
+  margin-top: 10px; 
+}
+
+.mt-4 { margin-top: 20px; }
   
