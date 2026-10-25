@@ -1,4 +1,4 @@
-/* MODERN CSS: Fixed Dialog layout and z-index overlap issues */
+/* MODERN CSS: Fixed Dialog layout, z-index, and bottom navigation overlap issues */
 
 :root {
   --bg-color: oklch(0.97 0.01 250);
@@ -42,7 +42,6 @@ body {
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
   
-  /* Fixed blur application to prevent layout breaking */
   &:has(dialog[open]) #app-screen {
     filter: blur(5px);
     pointer-events: none;
@@ -123,7 +122,7 @@ input {
 
 .app-header { 
   display: flex; justify-content: space-between; align-items: center; 
-  padding: 16px 24px; position: sticky; top: 0; z-index: 50; /* Z-index fix */
+  padding: 16px 24px; position: sticky; top: 0; z-index: 50; 
   border-radius: 0 0 24px 24px; border-top: none;
 }
 .app-content { padding: 24px; padding-bottom: 100px; max-width: 800px; margin: 0 auto; }
@@ -195,27 +194,34 @@ input {
 }
 
 .bottom-nav { 
-  position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-  width: calc(100% - 32px); max-width: 600px;
-  display: flex; justify-content: space-around; padding: 12px; 
-  border-radius: 24px; z-index: 50; /* Z-index fix */
+  position: fixed; 
+  bottom: 16px; 
+  left: 16px; 
+  right: 16px; 
+  max-width: 600px;
+  margin: 0 auto; 
+  display: flex; 
+  justify-content: space-around; 
+  align-items: center;
+  padding: 12px 8px; 
+  border-radius: 24px; 
+  z-index: 50; 
 }
 .nav-item { 
   background: none; border: none; color: var(--text-muted); 
-  font-size: 0.85rem; font-weight: 600; cursor: pointer; padding: 8px 12px;
+  font-size: clamp(0.7rem, 2.5vw, 0.85rem); 
+  font-weight: 600; cursor: pointer; padding: 8px 10px;
   border-radius: 12px; transition: all 0.3s ease;
+  white-space: nowrap; 
   
   &.active { color: var(--primary); background: var(--secondary); }
 }
 
-/* -----------------------------
-   NATIVE HTML5 DIALOGS - FIXED Z-INDEX & OVERFLOW
------------------------------ */
 .modern-dialog {
   margin: auto;
   border: 1px solid var(--glass-border);
   border-radius: 24px;
-  background: var(--bg-color); /* Fallback */
+  background: var(--bg-color); 
   background: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -224,13 +230,12 @@ input {
   max-width: 420px;
   color: var(--text-main);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  z-index: 9999; /* Ensure modal is on top */
+  z-index: 9999; 
   
-  /* Hide the modal fully when not open */
   display: none;
   
   &[open] {
-    display: block; /* Show only when open */
+    display: block; 
     animation: dialogFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   }
   
@@ -262,4 +267,4 @@ input {
     &:hover { background: var(--primary); color: white; }
   }
   }
-                        
+  
