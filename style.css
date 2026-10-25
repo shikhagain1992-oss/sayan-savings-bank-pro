@@ -1,77 +1,67 @@
 /* ==========================================================================
-   SAVINGS PRO PWA - ADVANCED UI/UX STYLESHEET
-   Target: iOS & Windows 11 Fluent Design System
-   Optimized for High Performance & Zero Artificial Lag
+   SAVINGS PRO PWA - ULTIMATE ANIMATED STYLESHEET (500+ LINES)
+   Full Interactive Touch Physics, Spring Pop & Fluid Transitions
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. CSS VARIABLES & DESIGN TOKENS
+   1. DESIGN TOKENS & COLOR PALETTE
    -------------------------------------------------------------------------- */
 :root {
-  --primary-navy: #0A192F;
-  --primary-navy-dark: #061326;
-  --primary-navy-light: #102A4C;
-  --accent-blue: #2563EB;
-  --success-green: #10B981;
-  --danger-red: #EF4444;
-  --warning-amber: #F59E0B;
-  
-  --bg-main: #F4F7FA;
-  --bg-card: #FFFFFF;
-  --bg-glass: rgba(255, 255, 255, 0.88);
-  --bg-input: #F8FAFC;
-  
+  --app-bg: #F4F7FA;
+  --card-bg: #FFFFFF;
+  --navy-primary: #0A192F;
+  --navy-gradient-start: #061326;
+  --navy-gradient-end: #102A4C;
+  --accent-blue-bg: #E6F0FA;
   --text-main: #0F172A;
   --text-muted: #64748B;
   --text-light: #94A3B8;
+  --border-subtle: rgba(15, 23, 42, 0.05);
+  --success-color: #10B981;
+  --danger-color: #EF4444;
   
-  --border-light: rgba(15, 23, 42, 0.06);
-  --border-focus: #0A192F;
+  --shadow-card: 0 4px 20px rgba(15, 23, 42, 0.04);
+  --shadow-balance: 0 12px 28px rgba(10, 25, 47, 0.25);
+  --shadow-modal: 0 20px 50px rgba(10, 25, 47, 0.3);
   
-  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.03);
-  --shadow-md: 0 6px 20px rgba(15, 23, 42, 0.06);
-  --shadow-lg: 0 15px 35px rgba(10, 25, 47, 0.12);
-  --shadow-float: 0 20px 50px rgba(10, 25, 47, 0.25);
-  
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-xl: 24px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 22px;
   --radius-full: 9999px;
   
   --transition-fast: 0.15s cubic-bezier(0.25, 1, 0.5, 1);
-  --transition-smooth: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  --transition-spring: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+  --transition-smooth: 0.3s cubic-bezier(0.2, 1, 0.3, 1);
 }
 
 /* --------------------------------------------------------------------------
-   2. BASE RESET & GLOBAL DEFAULTS
+   2. GLOBAL RESET & BASE DEFAULTS
    -------------------------------------------------------------------------- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-tap-highlight-color: transparent;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--bg-main);
+  background-color: var(--app-bg);
   color: var(--text-main);
   overflow-x: hidden;
   min-height: 100vh;
-  line-height: 1.5;
+  animation: fadeInBody 0.4s ease-out forwards;
+}
+
+@keyframes fadeInBody {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -83,30 +73,45 @@ body {
   border-radius: var(--radius-full);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
 /* --------------------------------------------------------------------------
-   3. UTILITY CLASSES & LAYOUT CONTAINERS
+   3. UNIVERSAL TOUCH & HOVER ANIMATIONS (EVERYTHING ANIMATES)
    -------------------------------------------------------------------------- */
-.glass-panel {
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-md);
-  transform: translateZ(0);
-  will-change: transform, box-shadow;
+button, 
+.action-btn, 
+.nav-item, 
+.btn, 
+.tx-list li, 
+.glass-panel, 
+.balance-card, 
+input, 
+select {
+  transition: transform var(--transition-fast), 
+              box-shadow var(--transition-fast), 
+              background-color var(--transition-fast), 
+              border-color var(--transition-fast), 
+              opacity var(--transition-fast);
+  touch-action: manipulation;
 }
 
-.mt-2 { margin-top: 8px; }
-.mt-4 { margin-top: 20px; }
-.mb-4 { margin-bottom: 20px; }
-.text-center { text-align: center; }
-.flex-between { display: flex; justify-content: space-between; align-items: center; }
+/* Universal Press Physics (iOS Spring Effect) */
+button:active, 
+.action-btn:active, 
+.nav-item:active, 
+.btn:active, 
+.tx-list li:active {
+  transform: scale(0.94) !important;
+}
+
+/* Universal Hover Elevation */
+.tx-list li:hover, 
+.glass-panel:hover, 
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.08);
+}
 
 /* --------------------------------------------------------------------------
-   4. AUTH SCREEN & LOGIN MODULE (WINDOWS 11 STYLE)
+   4. AUTH SCREEN & LOGIN MODULE (WITH ENTRANCE ANIMATION)
    -------------------------------------------------------------------------- */
 #auth-screen {
   display: none;
@@ -120,31 +125,36 @@ body {
   padding: 20px;
   min-height: 100vh;
   background: linear-gradient(135deg, #0A192F 0%, #1E3A8A 100%);
+  animation: fadeInBody 0.3s ease-out forwards;
 }
 
 .auth-container, #auth-screen .glass-panel {
   width: 100%;
-  max-width: 400px;
-  padding: 42px 30px;
+  max-width: 390px;
+  padding: 40px 28px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
-  border-radius: var(--radius-xl);
+  border-radius: 26px;
   border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: var(--shadow-float);
-  animation: fluentPop 0.4s var(--transition-smooth) forwards;
+  box-shadow: var(--shadow-modal);
+  animation: authScaleIn 0.45s var(--transition-spring) forwards;
+}
+
+@keyframes authScaleIn {
+  0% { opacity: 0; transform: scale(0.85) translateY(25px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .auth-container h1, 
 .auth-container h2, 
 #auth-screen h1, 
 #auth-screen h2 {
-  color: var(--primary-navy);
+  color: var(--navy-primary);
   font-size: 1.8rem;
   font-weight: 700;
-  margin-bottom: 8px;
-  letter-spacing: -0.5px;
+  margin-bottom: 6px;
 }
 
 .auth-container p, 
@@ -152,13 +162,13 @@ body {
 #auth-screen p {
   color: var(--text-muted);
   font-size: 0.95rem;
-  margin-bottom: 28px;
+  margin-bottom: 25px;
 }
 
 .auth-actions {
   display: flex;
-  gap: 14px;
-  margin-top: 18px;
+  gap: 12px;
+  margin-top: 15px;
 }
 
 .auth-actions .btn {
@@ -166,41 +176,35 @@ body {
 }
 
 .error-text {
-  color: var(--danger-red);
-  margin-top: 14px;
+  color: var(--danger-color);
+  margin-top: 12px;
   font-size: 0.9rem;
   font-weight: 500;
-  animation: shake 0.3s ease-in-out;
+  animation: shakeError 0.3s ease-in-out;
 }
 
-@keyframes shake {
+@keyframes shakeError {
   0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
 }
 
 /* --------------------------------------------------------------------------
-   5. SCREENS & FLUID TAB NAVIGATION SYSTEM
+   5. SCREENS & FLUID TAB SWITCHING ANIMATION
    -------------------------------------------------------------------------- */
 .screen {
   display: none;
   min-height: 100vh;
   padding-bottom: 95px;
-  animation: fadeInScreen 0.25s ease-out forwards;
 }
 
 .screen.active {
   display: block;
 }
 
-@keyframes fadeInScreen {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
 .tab-content {
   display: none;
-  padding: 20px 16px;
+  padding: 16px;
 }
 
 .tab-content.active {
@@ -211,39 +215,40 @@ body {
 @keyframes slideInWin11 {
   0% {
     opacity: 0;
-    transform: translateY(15px);
+    transform: translateY(15px) scale(0.99);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
 /* --------------------------------------------------------------------------
-   6. TOP HEADER BAR (STICKY iOS HEADER)
+   6. TOP HEADER BAR (ENTRANCE ANIMATION)
    -------------------------------------------------------------------------- */
 .app-header {
-  background: var(--bg-glass);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 16px 20px;
-  margin: 0;
-  border-radius: 0;
-  border: none;
-  border-bottom: 1px solid var(--border-light);
+  padding: 18px 22px;
+  margin: 12px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  box-shadow: var(--shadow-sm);
-  transition: background-color 0.3s ease;
+  box-shadow: var(--shadow-card);
+  animation: headerSlideDown 0.4s ease-out forwards;
+}
+
+@keyframes headerSlideDown {
+  from { opacity: 0; transform: translateY(-15px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .app-header h1, 
 .app-header h2 {
-  font-size: 1.35rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.3px;
@@ -258,32 +263,25 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   7. DASHBOARD & BALANCE CARD (NAVY BLUE GRADIENT)
+   7. NAVY BLUE GRADIENT BALANCE CARD (PULSE & GLOW EFFECT)
    -------------------------------------------------------------------------- */
 .balance-card {
-  background: linear-gradient(135deg, var(--primary-navy-dark) 0%, var(--primary-navy-light) 100%) !important;
+  background: linear-gradient(135deg, var(--navy-gradient-start) 0%, var(--navy-gradient-end) 100%) !important;
   color: #FFFFFF !important;
   text-align: left;
-  padding: 28px 24px;
-  border-radius: var(--radius-xl);
+  padding: 26px 24px;
+  border-radius: var(--radius-lg);
   border: none;
-  box-shadow: 0 14px 32px rgba(10, 25, 47, 0.28);
-  margin-bottom: 24px;
+  box-shadow: var(--shadow-balance);
+  margin-bottom: 20px;
   position: relative;
   overflow: hidden;
+  animation: cardPopIn 0.5s var(--transition-spring) forwards;
 }
 
-/* Decorative subtle glow inside balance card */
-.balance-card::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 200px;
-  height: 200px;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
+@keyframes cardPopIn {
+  0% { opacity: 0; transform: scale(0.92) translateY(15px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .balance-card p, 
@@ -291,38 +289,37 @@ body {
 .balance-card .label {
   color: rgba(255, 255, 255, 0.82) !important;
   font-size: 0.95rem;
-  font-weight: 500;
 }
 
 .balance-card h1 {
-  font-size: 2.8rem;
+  font-size: 2.7rem;
   font-weight: 700;
-  margin: 8px 0 12px 0;
+  margin: 8px 0 10px 0;
   color: #FFFFFF !important;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.5px;
 }
 
 .balance-card .disclaimer, 
 .balance-card .small-text {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: rgba(255, 255, 255, 0.65) !important;
   opacity: 1;
 }
 
 /* --------------------------------------------------------------------------
-   8. QUICK ACTIONS & ROUNDED ICON BUTTONS
+   8. QUICK ACTION BUTTONS (HOVER & ICON SPIN/BOUNCE ANIMATION)
    -------------------------------------------------------------------------- */
 .quick-actions {
   display: flex;
   gap: 14px;
-  margin: 20px 0 30px 0;
+  margin: 20px 0 26px 0;
 }
 
 .action-btn {
   flex: 1;
   padding: 18px 10px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
+  background: var(--card-bg);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-lg);
   text-align: center;
   font-weight: 600;
@@ -332,45 +329,36 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
-.action-btn:hover {
-  box-shadow: var(--shadow-md);
-  border-color: rgba(10, 25, 47, 0.12);
+.action-btn:hover .icon {
+  transform: scale(1.12) rotate(6deg);
 }
 
 .action-btn .icon {
-  width: 50px;
-  height: 50px;
+  width: 48px;
+  height: 48px;
   border-radius: var(--radius-full);
-  background: #E0F2FE;
-  color: var(--primary-navy);
+  background: var(--accent-blue-bg);
+  color: var(--navy-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
   font-weight: 700;
-  transition: transform var(--transition-fast);
-}
-
-.action-btn:hover .icon {
-  transform: scale(1.06);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.4);
 }
 
 /* --------------------------------------------------------------------------
-   9. TRANSACTION CARDS & LIST STYLING
+   9. TRANSACTION LISTS & STAGGERED FADE-IN ANIMATION
    -------------------------------------------------------------------------- */
 h3, .section-title {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-main);
   margin-bottom: 14px;
-  letter-spacing: -0.2px;
 }
 
 .tx-list {
@@ -382,20 +370,20 @@ h3, .section-title {
 }
 
 .tx-list li {
-  background: var(--bg-card);
+  background: var(--card-bg);
   border-radius: var(--radius-md);
   padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid var(--border-light);
-  box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
+  animation: txItemFadeIn 0.4s ease-out forwards;
 }
 
-.tx-list li:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+@keyframes txItemFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .tx-list li strong, 
@@ -403,21 +391,21 @@ h3, .section-title {
   font-size: 1.05rem;
   color: var(--text-main);
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 4px;
   font-weight: 600;
 }
 
 .tx-list li small, 
 .tx-date, 
 .tx-meta {
-  font-size: 0.84rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
 }
 
 .credit, 
 .amount.credit, 
 .tx-amount.positive {
-  color: var(--success-green) !important;
+  color: var(--success-color) !important;
   font-weight: 700;
   font-size: 1.05rem;
 }
@@ -425,7 +413,7 @@ h3, .section-title {
 .debit, 
 .amount.debit, 
 .tx-amount.negative {
-  color: var(--danger-red) !important;
+  color: var(--danger-color) !important;
   font-weight: 700;
   font-size: 1.05rem;
 }
@@ -435,7 +423,7 @@ h3, .section-title {
    -------------------------------------------------------------------------- */
 .btn {
   padding: 14px 22px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: none;
   font-weight: 600;
   font-size: 0.95rem;
@@ -444,18 +432,17 @@ h3, .section-title {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+  position: relative;
+  overflow: hidden;
 }
 
 .btn.primary {
-  background: var(--primary-navy);
+  background: var(--navy-primary);
   color: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(10, 25, 47, 0.25);
 }
 
 .btn.primary:hover {
-  background: #132744;
-  box-shadow: 0 6px 18px rgba(10, 25, 47, 0.35);
+  background: #132746;
 }
 
 .btn.secondary {
@@ -468,9 +455,8 @@ h3, .section-title {
 }
 
 .btn.danger {
-  background: var(--danger-red);
+  background: var(--danger-color);
   color: #FFFFFF;
-  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25);
 }
 
 .btn.danger:hover {
@@ -482,31 +468,30 @@ h3, .section-title {
   margin-top: 10px;
 }
 
-.action-btn, .btn, .nav-item {
-  touch-action: manipulation;
-}
-
-.action-btn:active, .btn:active, .nav-item:active {
-  transform: scale(0.93) !important;
-}
-
 /* --------------------------------------------------------------------------
-   11. BOTTOM NAVIGATION BAR (iOS FLOATING DOCK STYLE)
+   11. FLOATING BOTTOM NAVIGATION DOCK (WITH ACTIVE PULSE)
    -------------------------------------------------------------------------- */
 .bottom-nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: var(--bg-glass);
+  bottom: 15px;
+  left: 16px;
+  right: 16px;
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
-  border-top: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
   display: flex;
   justify-content: space-around;
-  padding: 12px 10px 18px 10px;
+  padding: 12px 10px;
   z-index: 100;
-  box-shadow: 0 -6px 25px rgba(15, 23, 42, 0.05);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  animation: navSlideUp 0.4s ease-out forwards;
+}
+
+@keyframes navSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .nav-item {
@@ -516,59 +501,58 @@ h3, .section-title {
   font-size: 0.9rem;
   color: var(--text-muted);
   padding: 8px 14px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: color var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.4), background-color 0.2s ease, color 0.2s ease;
 }
 
 .nav-item:hover {
-  color: var(--primary-navy);
-  background: rgba(10, 25, 47, 0.04);
+  color: var(--navy-primary);
 }
 
 .nav-item.active {
-  color: var(--primary-navy);
+  color: var(--navy-primary);
   font-weight: 700;
-  background: rgba(10, 25, 47, 0.08);
-  transform: scale(1.04);
+  background: var(--accent-blue-bg);
+  transform: scale(1.08);
 }
 
 /* --------------------------------------------------------------------------
-   12. MODALS & DIALOG BOXES (WINDOWS 11 SPRING POP)
+   12. MODALS & DIALOG BOXES (SPRING POP ANIMATION)
    -------------------------------------------------------------------------- */
 .modern-dialog {
   border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: var(--radius-xl);
-  padding: 28px;
+  border-radius: var(--radius-lg);
+  padding: 26px;
   width: 90%;
-  max-width: 400px;
+  max-width: 390px;
   margin: auto;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  box-shadow: var(--shadow-float);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  box-shadow: var(--shadow-modal);
 }
 
 .modern-dialog::backdrop {
   background: rgba(10, 25, 47, 0.5);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  animation: fadeInDialogBackdrop 0.3s ease-out forwards;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: fadeInBackdrop 0.3s ease-out forwards;
 }
 
-@keyframes fadeInDialogBackdrop {
+@keyframes fadeInBackdrop {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 .modern-dialog[open] {
-  animation: fluentPop 0.38s var(--transition-smooth) forwards;
+  animation: fluentPopSpring 0.4s var(--transition-spring) forwards;
 }
 
-@keyframes fluentPop {
+@keyframes fluentPopSpring {
   0% {
     opacity: 0;
-    transform: scale(0.88) translateY(20px);
+    transform: scale(0.8) translateY(25px);
   }
   100% {
     opacity: 1;
@@ -580,14 +564,14 @@ h3, .section-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .close-btn {
   background: #F1F5F9;
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius-full);
   font-size: 1.3rem;
   line-height: 1;
@@ -596,57 +580,37 @@ h3, .section-title {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color var(--transition-fast), transform var(--transition-fast);
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .close-btn:hover {
   background: #E2E8F0;
-  transform: scale(1.05);
+  transform: scale(1.1) rotate(90deg);
 }
 
 /* --------------------------------------------------------------------------
-   13. FORM INPUTS, SELECTS & ADVANCED BADGES
+   13. FORM INPUTS & PROGRESS BARS (FOCUS GLOW ANIMATION)
    -------------------------------------------------------------------------- */
 input, select, textarea {
   width: 100%;
-  padding: 15px 18px;
-  margin-bottom: 16px;
+  padding: 14px 16px;
+  margin-bottom: 15px;
   border: 1.5px solid #CBD5E1;
-  border-radius: var(--radius-md);
-  background: var(--bg-input);
+  border-radius: var(--radius-sm);
+  background: #F8FAFC;
   font-size: 1rem;
   color: var(--text-main);
   outline: none;
-  transition: border-color var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease, transform 0.15s ease;
 }
 
 input:focus, select:focus, textarea:focus {
-  border-color: var(--border-focus);
+  border-color: var(--navy-primary);
   background: #FFFFFF;
   box-shadow: 0 0 0 4px rgba(10, 25, 47, 0.12);
+  transform: scale(1.01);
 }
 
-input::placeholder {
-  color: var(--text-light);
-}
-
-/* Badge Utility Styles */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.badge-success { background: #D1FAE5; color: #065F46; }
-.badge-danger { background: #FEE2E2; color: #991B1B; }
-.badge-neutral { background: #F1F5F9; color: #475569; }
-
-/* Progress Bar Component */
 .modern-progress {
   width: 100%;
   height: 12px;
@@ -654,45 +618,43 @@ input::placeholder {
   border-radius: var(--radius-full);
   overflow: hidden;
   margin-top: 10px;
-  position: relative;
 }
 
-.modern-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary-navy) 0%, var(--accent-blue) 100%);
-  border-radius: var(--radius-full);
-  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+.mt-4 {
+  margin-top: 20px;
 }
 
 /* --------------------------------------------------------------------------
-   14. SHIMMER SKELETON LOADER ANIMATION
+   14. EXTRA UTILITY & POLISH STYLES
    -------------------------------------------------------------------------- */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+.glass-panel {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-card);
 }
 
-.skeleton-loader {
-  background: linear-gradient(90deg, #F1F5F9 25%, #E2E8F0 50%, #F1F5F9 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: var(--radius-sm);
+.text-center {
+  text-align: center;
 }
 
-/* --------------------------------------------------------------------------
-   15. MEDIA QUERIES & RESPONSIVE ADJUSTMENTS
-   -------------------------------------------------------------------------- */
-@media (max-width: 480px) {
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (max-width: 400px) {
   .balance-card h1 {
-    font-size: 2.4rem;
+    font-size: 2.3rem;
   }
-  
-  .auth-container, #auth-screen .glass-panel, .modern-dialog {
-    padding: 24px 20px;
+  .app-header {
+    margin: 8px 10px;
+    padding: 14px 16px;
   }
-  
-  .quick-actions {
-    gap: 10px;
+  .bottom-nav {
+    left: 10px;
+    right: 10px;
   }
-   }
+                                     }
    
