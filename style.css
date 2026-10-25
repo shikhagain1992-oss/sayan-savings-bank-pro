@@ -1,5 +1,5 @@
 /* =========================================
-   BASE RESET & TYPOGRAPHY
+   বেস রিসেট এবং নেভি-ব্লু থিম
 ========================================= */
 * { 
   margin: 0; 
@@ -10,96 +10,105 @@
 }
 
 body { 
-  background-color: #F5F7FA; 
-  color: #0A192F; 
+  background-color: #0A192F; /* গাঢ় নেভি-ব্লু ব্যাকগ্রাউন্ড */
+  color: #FFFFFF; 
+  min-height: 100vh;
   overflow-x: hidden; 
 }
 
 /* =========================================
-   DISTINCT PANELS (সাদা আর নেভি-ব্লু ফিরে পাওয়ার জন্য)
+   সাদা ও গ্লাস কার্ড ডিজাইন
 ========================================= */
-.glass-panel {
-  background: #ffffff; /* গাঢ় সাদা প্যানেল */
-  border: 1px solid rgba(10, 25, 47, 0.05);
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(10, 25, 47, 0.08);
+.glass-panel, .auth-container {
+  background: #FFFFFF; 
+  color: #0A192F;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 15px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
 /* =========================================
-   APP HEADER (তোমার অরিজিনাল নেভি ব্লু)
+   লগইন পেজ (মাঝখানে এবং আকর্ষণীয়)
 ========================================= */
-.app-header { 
-  background-color: #0A192F; /* নেভি ব্লু ব্যাকগ্রাউন্ড */
-  color: #ffffff;
-  padding: 20px; 
-  margin: 15px; 
-  border-radius: 16px;
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
-  box-shadow: 0 8px 25px rgba(10, 25, 47, 0.2);
+#auth-screen { 
+  display: none; 
 }
-
-.app-header h1 { color: #ffffff; font-size: 1.6rem; }
-#user-email-display { color: rgba(255, 255, 255, 0.8); }
-
-/* =========================================
-   AUTH SCREEN (লগইন পেজের আগের ডিজাইন)
-========================================= */
-#auth-screen { display: none; }
 
 #auth-screen.active {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
   min-height: 100vh;
+  padding: 20px;
 }
 
-.auth-container {
+#auth-screen .glass-panel, .auth-container {
   width: 100%;
   max-width: 400px;
-  padding: 40px 25px;
+  padding: 35px 25px;
   text-align: center;
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(10, 25, 47, 0.1);
+  margin: auto;
+  animation: fluentPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
 }
 
-.auth-container h2 {
+#auth-screen h1, #auth-screen h2, .auth-container h2 {
   color: #0A192F;
-  margin-bottom: 5px;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
+  margin-bottom: 8px;
 }
 
-.auth-container .subtitle {
-  color: #555;
+#auth-screen p, .auth-container .subtitle {
+  color: #4A5568;
+  font-size: 0.95rem;
   margin-bottom: 25px;
-  font-size: 0.9rem;
 }
-
-.auth-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.auth-actions .btn { flex: 1; }
-
-.error-text { color: #FF4C4C; margin-top: 15px; font-size: 0.9rem; }
 
 /* =========================================
-   SCREENS & WINDOWS 11 TAB SWITCHING
+   সব ইনপুট বক্সের ডিজাইন (ইমেইল ও পাসওয়ার্ড)
 ========================================= */
-.screen { display: none; min-height: 100vh; padding-bottom: 90px; }
-.screen.active { display: block; }
-#auth-screen.active { display: flex; }
+input { 
+  width: 100%; 
+  padding: 14px 16px; 
+  margin-bottom: 15px; 
+  border: 2px solid #E2E8F0; 
+  border-radius: 12px; 
+  background: #F8FAFC; 
+  color: #0A192F;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
 
-.tab-content { display: none; padding: 20px; }
+input:focus { 
+  border-color: #0A192F; 
+  background: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(10, 25, 47, 0.15);
+}
+
+/* =========================================
+   স্ক্রিন এবং ট্যাব পরিবর্তন অ্যানিমেশন
+========================================= */
+.screen { 
+  display: none; 
+  min-height: 100vh; 
+  padding-bottom: 95px; 
+}
+
+.screen.active { 
+  display: block; 
+}
+
+.tab-content { 
+  display: none; 
+  padding: 10px 5px; 
+}
+
 .tab-content.active { 
   display: block; 
-  animation: slideInWin11 0.3s cubic-bezier(0.2, 1, 0.3, 1) forwards; 
+  animation: slideInWin11 0.35s cubic-bezier(0.2, 1, 0.3, 1) forwards; 
 }
 
 @keyframes slideInWin11 {
@@ -108,66 +117,164 @@ body {
 }
 
 /* =========================================
-   WALLET DASHBOARD
+   হেডার এবং ব্যালেন্স কার্ড
 ========================================= */
-.balance-card { text-align: center; padding: 30px 20px; }
-.balance-card h1 { font-size: 2.8rem; margin: 10px 0; color: #0A192F; }
-.disclaimer, .small-text { font-size: 0.8rem; opacity: 0.7; }
+.app-header { 
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px; 
+  margin: 15px; 
+  border-radius: 18px;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
 
-/* =========================================
-   BUTTONS & iOS TOUCH PHYSICS (নেভি ব্লু বাটন)
-========================================= */
-.quick-actions { display: flex; gap: 12px; margin-top: 20px; }
+.app-header h1, .app-header h2 { 
+  color: #FFFFFF; 
+  font-size: 1.4rem; 
+}
 
-.action-btn { 
-  flex: 1; padding: 15px; border: none; text-align: center; font-weight: 600; 
-  display: flex; flex-direction: column; align-items: center; gap: 8px; 
+.balance-card { 
+  text-align: center; 
+  padding: 30px 20px; 
+  background: #FFFFFF;
   color: #0A192F;
 }
 
-.action-btn .icon { font-size: 1.5rem; }
-
-.btn { 
-  padding: 14px 20px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; 
+.balance-card h1 { 
+  font-size: 2.8rem; 
+  margin: 10px 0; 
+  color: #0A192F; 
 }
 
-.btn.primary { background: #0A192F; color: #fff; }
-.btn.secondary { background: rgba(10, 25, 47, 0.1); color: #0A192F; }
-.btn.danger { background: #FF4C4C; color: #fff; }
-.full-width { width: 100%; margin-top: 10px; }
+.disclaimer, .small-text { 
+  font-size: 0.8rem; 
+  opacity: 0.75; 
+}
 
-/* iOS Button Press Animation */
+/* =========================================
+   বাটন এবং টাচ অ্যানিমেশন
+========================================= */
+.quick-actions { 
+  display: flex; 
+  gap: 12px; 
+  margin: 15px; 
+}
+
+.action-btn { 
+  flex: 1; 
+  padding: 16px 10px; 
+  border: none; 
+  border-radius: 16px;
+  background: #FFFFFF;
+  color: #0A192F;
+  text-align: center; 
+  font-weight: 600; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 8px; 
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.action-btn .icon { 
+  font-size: 1.5rem; 
+}
+
+.btn { 
+  padding: 14px 22px; 
+  border-radius: 12px; 
+  border: none; 
+  font-weight: 600; 
+  font-size: 1rem;
+  cursor: pointer; 
+  margin-top: 5px;
+}
+
+.btn.primary { 
+  background: #0A192F; 
+  color: #FFFFFF; 
+}
+
+.btn.secondary { 
+  background: #E2E8F0; 
+  color: #0A192F; 
+}
+
+.btn.danger { 
+  background: #FF4C4C; 
+  color: #FFFFFF; 
+}
+
+.full-width { 
+  width: 100%; 
+  margin-top: 10px; 
+}
+
 .action-btn, .btn, .nav-item {
   transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease;
 }
-.action-btn:active, .btn:active { transform: scale(0.92); }
+
+.action-btn:active, .btn:active, .nav-item:active { 
+  transform: scale(0.92); 
+}
 
 /* =========================================
-   BOTTOM NAVIGATION
+   নিচের নেভিগেশন বার
 ========================================= */
 .bottom-nav { 
-  position: fixed; bottom: 15px; left: 15px; right: 15px; 
-  display: flex; justify-content: space-around; padding: 12px; z-index: 100; 
-  background: #ffffff;
+  position: fixed; 
+  bottom: 15px; 
+  left: 15px; 
+  right: 15px; 
+  display: flex; 
+  justify-content: space-around; 
+  padding: 12px; 
+  z-index: 100; 
+  background: #FFFFFF;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
 }
 
-.nav-item { background: none; border: none; font-weight: 600; color: #888; padding: 10px; }
-.nav-item.active { color: #0A192F; transform: scale(1.05); }
-.nav-item:active { transform: scale(0.92); }
+.nav-item { 
+  background: none; 
+  border: none; 
+  font-weight: 600; 
+  color: #718096; 
+  padding: 10px 16px; 
+  border-radius: 12px;
+}
+
+.nav-item.active { 
+  background: #0A192F;
+  color: #FFFFFF; 
+  transform: scale(1.05); 
+}
 
 /* =========================================
-   MODALS (WINDOWS 11 SPRING POP)
+   পপ-আপ ডায়ালগ বক্স
 ========================================= */
 .modern-dialog { 
-  border: none; border-radius: 20px; padding: 25px; 
-  width: 90%; max-width: 400px; margin: auto; 
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 12px 48px rgba(10, 25, 47, 0.2);
+  border: none; 
+  border-radius: 22px; 
+  padding: 25px; 
+  width: 90%; 
+  max-width: 400px; 
+  margin: auto; 
+  background: #FFFFFF;
+  color: #0A192F;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
 }
 
-.modern-dialog::backdrop { background: rgba(10, 25, 47, 0.4); }
+.modern-dialog::backdrop { 
+  background: rgba(10, 25, 47, 0.75); 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
 
 .modern-dialog[open] {
   animation: fluentPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
@@ -178,26 +285,42 @@ body {
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-.dialog-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.close-btn { background: none; border: none; font-size: 1.8rem; line-height: 1; padding: 5px; color: #0A192F; }
-
-/* =========================================
-   INPUT FORMS & LISTS
-========================================= */
-.form-group { margin-bottom: 15px; }
-
-form input, .form-group input { 
-  width: 100%; padding: 14px; margin-bottom: 15px; 
-  border: 1.5px solid rgba(10, 25, 47, 0.1); 
-  border-radius: 12px; background: #F5F7FA; 
-  font-size: 1rem; outline: none; color: #0A192F;
+.dialog-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px; 
 }
 
-form input:focus, .form-group input:focus { border-color: #0A192F; }
+.close-btn { 
+  background: none; 
+  border: none; 
+  font-size: 1.8rem; 
+  line-height: 1; 
+  padding: 5px; 
+  color: #0A192F; 
+}
 
-.tx-list { list-style: none; margin-top: 15px; }
-.tx-list li { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid rgba(10, 25, 47, 0.05); }
+.tx-list { 
+  list-style: none; 
+  margin-top: 15px; 
+}
 
-.modern-progress { width: 100%; height: 12px; border-radius: 6px; margin-top: 10px; }
+.tx-list li { 
+  display: flex; 
+  justify-content: space-between; 
+  padding: 15px; 
+  border-bottom: 1px solid #E2E8F0; 
+  color: #0A192F;
+}
+
+.modern-progress { 
+  width: 100%; 
+  height: 12px; 
+  border-radius: 6px; 
+  margin-top: 10px; 
+}
+
 .mt-4 { margin-top: 20px; }
+.error-text { color: #FF4C4C; margin-top: 15px; font-size: 0.9rem; }
    
