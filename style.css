@@ -16,24 +16,19 @@ body {
 }
 
 /* =========================================
-   LAG-FREE FROSTED GLASS (iOS/Win11)
+   HEAVY PREMIUM FROSTED GLASS (iOS/Win11)
 ========================================= */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  
-  /* GPU Hardware Acceleration to prevent lag */
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  will-change: transform, backdrop-filter;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 /* =========================================
-   AUTH SCREEN (LOGIN PAGE FIX)
+   AUTH SCREEN (LOGIN PAGE CENTERED)
 ========================================= */
 #auth-screen {
   display: none;
@@ -76,6 +71,12 @@ body {
   flex: 1;
 }
 
+.error-text { 
+  color: #FF4C4C; 
+  margin-top: 15px; 
+  font-size: 0.9rem; 
+}
+
 /* =========================================
    SCREENS & FLUID TAB SWITCHING
 ========================================= */
@@ -98,13 +99,14 @@ body {
   padding: 20px; 
 }
 
+/* Windows 11 Fluid Tab Animation */
 .tab-content.active { 
   display: block; 
-  animation: slideInWin11 0.15s ease-out forwards; 
+  animation: slideInWin11 0.4s cubic-bezier(0.2, 1, 0.3, 1) forwards; 
 }
 
 @keyframes slideInWin11 {
-  0% { opacity: 0; transform: translateX(15px); }
+  0% { opacity: 0; transform: translateX(20px); }
   100% { opacity: 1; transform: translateX(0); }
 }
 
@@ -136,7 +138,7 @@ body {
 }
 
 /* =========================================
-   BUTTONS & INSTANT TOUCH RESPONSE
+   BUTTONS & iOS TOUCH PHYSICS
 ========================================= */
 .quick-actions { 
   display: flex; 
@@ -173,14 +175,13 @@ body {
 .btn.danger { background: #FF4C4C; color: #fff; }
 .full-width { width: 100%; margin-top: 10px; }
 
-/* Anti-Lag Button Animations */
+/* Authentic iOS Button Press Scaling */
 .action-btn, .btn, .nav-item {
-  touch-action: manipulation; 
-  transition: transform 0.1s ease-out, background-color 0.2s;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease;
 }
 
 .action-btn:active, .btn:active { 
-  transform: scale(0.94); 
+  transform: scale(0.92); 
 }
 
 /* =========================================
@@ -215,7 +216,7 @@ body {
 }
 
 /* =========================================
-   MODALS (FAST WINDOWS 11 POP-UP)
+   MODALS (WINDOWS 11 SPRING POP)
 ========================================= */
 .modern-dialog { 
   border: none; 
@@ -224,26 +225,24 @@ body {
   width: 90%; 
   max-width: 400px; 
   margin: auto; 
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  
-  transform: translateZ(0);
-  will-change: transform, opacity;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.25);
 }
 
 .modern-dialog::backdrop { 
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.4); 
 }
 
+/* Fluent UI Spring Animation */
 .modern-dialog[open] {
-  animation: fastPop 0.15s ease-out forwards;
+  animation: fluentPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
 }
 
-@keyframes fastPop {
-  0% { opacity: 0; transform: scale(0.92); }
-  100% { opacity: 1; transform: scale(1); }
+@keyframes fluentPop {
+  0% { opacity: 0; transform: scale(0.9) translateY(15px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .dialog-header { 
@@ -303,5 +302,4 @@ form input:focus, .form-group input:focus {
 }
 
 .mt-4 { margin-top: 20px; }
-.error-text { color: #FF4C4C; margin-top: 10px; font-size: 0.9rem; }
    
