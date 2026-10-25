@@ -6,7 +6,7 @@
   padding: 0; 
   box-sizing: border-box; 
   font-family: 'Outfit', sans-serif; 
-  -webkit-tap-highlight-color: transparent; /* Removes default blue tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent; 
 }
 
 body { 
@@ -33,6 +33,50 @@ body {
 }
 
 /* =========================================
+   AUTH SCREEN (LOGIN PAGE FIX)
+========================================= */
+#auth-screen {
+  display: none;
+}
+
+#auth-screen.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 25px;
+  text-align: center;
+}
+
+.auth-container h2 {
+  margin-bottom: 5px;
+  font-size: 1.8rem;
+}
+
+.auth-container .subtitle {
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.auth-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.auth-actions .btn {
+  flex: 1;
+}
+
+/* =========================================
    SCREENS & FLUID TAB SWITCHING
 ========================================= */
 .screen { 
@@ -43,6 +87,10 @@ body {
 
 .screen.active { 
   display: block; 
+}
+
+#auth-screen.active {
+  display: flex;
 }
 
 .tab-content { 
@@ -127,7 +175,7 @@ body {
 
 /* Anti-Lag Button Animations */
 .action-btn, .btn, .nav-item {
-  touch-action: manipulation; /* Kills the 300ms tap delay */
+  touch-action: manipulation; 
   transition: transform 0.1s ease-out, background-color 0.2s;
 }
 
@@ -216,7 +264,11 @@ body {
 /* =========================================
    INPUT FORMS & LISTS
 ========================================= */
-form input { 
+.form-group {
+  margin-bottom: 15px;
+}
+
+form input, .form-group input { 
   width: 100%; 
   padding: 14px; 
   margin-bottom: 15px; 
@@ -227,7 +279,7 @@ form input {
   outline: none;
 }
 
-form input:focus {
+form input:focus, .form-group input:focus {
   border-color: #0A192F;
 }
 
@@ -251,4 +303,5 @@ form input:focus {
 }
 
 .mt-4 { margin-top: 20px; }
-  
+.error-text { color: #FF4C4C; margin-top: 10px; font-size: 0.9rem; }
+   
