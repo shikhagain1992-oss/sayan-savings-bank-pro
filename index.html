@@ -4,27 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sayan's Savings Bank Pro</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css?v=4">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Firebase Compat Libraries -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 </head>
 <body>
 
-  <!-- AUTHENTICATION SCREEN -->
   <div id="auth-screen" class="screen active">
-    <div class="auth-container">
+    <div class="glass-panel auth-container">
       <h2>Sayan's Savings Bank Pro</h2>
       <p class="subtitle">Personal Money Management</p>
       
       <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="auth-email" placeholder="Enter your email">
+        <input type="email" id="auth-email" placeholder="Email Address" required>
       </div>
       <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="auth-password" placeholder="Enter your password">
+        <input type="password" id="auth-password" placeholder="Password" required>
       </div>
       <div class="auth-actions">
         <button id="btn-login" class="btn primary">Log In</button>
@@ -34,9 +34,8 @@
     </div>
   </div>
 
-  <!-- MAIN APP WRAPPER -->
   <div id="app-screen" class="screen">
-    <header class="app-header">
+    <header class="app-header glass-panel">
       <h1>Savings Pro</h1>
       <div class="user-profile">
         <span id="user-email-display">user@example.com</span>
@@ -45,25 +44,24 @@
 
     <main class="app-content">
       
-      <!-- WALLET TAB -->
       <section id="tab-wallet" class="tab-content active">
         <div class="wallet-dashboard">
           <div class="balance-card">
             <h3>Available Balance</h3>
-            <h1 id="total-balance">₹0.00</h1>
+            <h1 id="total-balance">Loading...</h1>
             <p class="disclaimer">Personal tracker, not a real bank account</p>
           </div>
 
           <div class="quick-actions">
-            <button class="action-btn" onclick="openModal('add-money-modal')">
+            <button class="action-btn glass-panel" onclick="openModal('add-money-modal')">
               <span class="icon">+</span>
               Add
             </button>
-            <button class="action-btn" onclick="openModal('spend-money-modal')">
+            <button class="action-btn glass-panel" onclick="openModal('spend-money-modal')">
               <span class="icon">-</span>
               Spend
             </button>
-            <button class="action-btn" onclick="openModal('send-money-modal')">
+            <button class="action-btn glass-panel" onclick="openModal('send-money-modal')">
               <span class="icon">➔</span>
               Send
             </button>
@@ -72,13 +70,11 @@
           <div class="recent-preview">
             <h3>Recent Transactions</h3>
             <ul id="recent-transactions-list" class="tx-list">
-              <!-- JS Populated -->
             </ul>
           </div>
         </div>
       </section>
 
-      <!-- HISTORY TAB -->
       <section id="tab-history" class="tab-content">
         <h2>Transaction History</h2>
         <div class="filters">
@@ -87,44 +83,39 @@
           <button class="btn secondary small" onclick="renderHistory('debit')">Debit (Out)</button>
         </div>
         <ul id="full-history-list" class="tx-list">
-          <!-- JS Populated -->
         </ul>
       </section>
 
-      <!-- GOALS TAB -->
       <section id="tab-goals" class="tab-content">
         <h2>Savings Goals</h2>
         <button class="btn primary" onclick="openModal('add-goal-modal')">+ Set Goal</button>
         <div id="goals-list" class="goals-container mt-4">
-          <div class="card">
+          <div class="glass-panel">
             <h3 id="savedGoalName">No goal saved</h3>
             <p id="goalProgress" class="small-text">Set a target to begin.</p>
-            <progress id="goalBar" value="0" max="100" style="width:100%"></progress>
+            <progress id="goalBar" value="0" max="100" class="modern-progress"></progress>
           </div>
         </div>
       </section>
 
-      <!-- INSIGHTS TAB -->
       <section id="tab-insights" class="tab-content">
         <h2>Financial Insights</h2>
-        <div class="chart-container">
+        <div class="chart-container glass-panel">
           <canvas id="incomeExpenseChart"></canvas>
         </div>
       </section>
 
-      <!-- ASSISTANT TAB -->
       <section id="tab-assistant" class="tab-content">
         <h2>Financial Assistant</h2>
-        <div class="assistant-box">
+        <div class="glass-panel assistant-box">
           <p id="assistant-message">Hello! I am your simple financial helper. Based on your records, I will provide insights here once you add transactions.</p>
-          <button class="btn secondary" onclick="generateAssistantInsight()">Refresh Insights</button>
+          <button class="btn secondary mt-4" onclick="generateAssistantInsight()">Refresh Insights</button>
         </div>
       </section>
 
-      <!-- PROFILE TAB -->
       <section id="tab-profile" class="tab-content">
         <h2>Profile & Settings</h2>
-        <div class="settings-card">
+        <div class="glass-panel settings-card">
           <p><strong>Account:</strong> <span id="profile-email"></span></p>
           <button class="btn secondary full-width" onclick="exportCSV()">Export CSV</button>
           <button class="btn secondary full-width" onclick="toggleTheme()">Toggle Dark Mode</button>
@@ -137,8 +128,7 @@
       </section>
     </main>
 
-    <!-- BOTTOM NAVIGATION (MOBILE) -->
-    <nav class="bottom-nav">
+    <nav class="bottom-nav glass-panel">
       <button class="nav-item active" data-target="tab-wallet">Wallet</button>
       <button class="nav-item" data-target="tab-history">History</button>
       <button class="nav-item" data-target="tab-goals">Goals</button>
@@ -147,56 +137,56 @@
     </nav>
   </div>
 
-  <!-- MODALS -->
-  <div id="add-money-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('add-money-modal')">&times;</span>
+  <dialog id="add-money-modal" class="modern-dialog">
+    <div class="dialog-header">
       <h3>Add Money (Credit)</h3>
-      <form id="add-money-form">
-        <input type="number" id="add-amount" placeholder="Amount (₹)" required min="1" step="0.01">
-        <input type="text" id="add-desc" placeholder="Description" required>
-        <button type="submit" class="btn primary full-width" id="btn-save-add">Save Credit</button>
-      </form>
+      <button class="close-btn" onclick="closeModal('add-money-modal')">&times;</button>
     </div>
-  </div>
+    <form id="add-money-form">
+      <input type="number" id="add-amount" placeholder="Amount (₹)" required min="1" step="0.01">
+      <input type="text" id="add-desc" placeholder="Description" required>
+      <button type="submit" class="btn primary full-width" id="btn-save-add">Save Credit</button>
+    </form>
+  </dialog>
 
-  <div id="spend-money-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('spend-money-modal')">&times;</span>
+  <dialog id="spend-money-modal" class="modern-dialog">
+    <div class="dialog-header">
       <h3>Spend Money (Debit)</h3>
-      <form id="spend-money-form">
-        <input type="number" id="spend-amount" placeholder="Amount (₹)" required min="1" step="0.01">
-        <input type="text" id="spend-desc" placeholder="Description/Category" required>
-        <button type="submit" class="btn primary full-width" id="btn-save-spend">Save Debit</button>
-      </form>
+      <button class="close-btn" onclick="closeModal('spend-money-modal')">&times;</button>
     </div>
-  </div>
+    <form id="spend-money-form">
+      <input type="number" id="spend-amount" placeholder="Amount (₹)" required min="1" step="0.01">
+      <input type="text" id="spend-desc" placeholder="Description/Category" required>
+      <button type="submit" class="btn primary full-width" id="btn-save-spend">Save Debit</button>
+    </form>
+  </dialog>
 
-  <div id="send-money-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('send-money-modal')">&times;</span>
+  <dialog id="send-money-modal" class="modern-dialog">
+    <div class="dialog-header">
       <h3>Record Transfer</h3>
-      <p class="small-text">This records a simulated outgoing transfer in your tracker.</p>
-      <form id="send-money-form">
-        <input type="text" id="send-recipient" placeholder="Recipient Name" required>
-        <input type="number" id="send-amount" placeholder="Amount (₹)" required min="1" step="0.01">
-        <button type="submit" class="btn primary full-width" id="btn-save-send">Record Transfer</button>
-      </form>
+      <button class="close-btn" onclick="closeModal('send-money-modal')">&times;</button>
     </div>
-  </div>
+    <p class="small-text">This records a simulated outgoing transfer in your tracker.</p>
+    <form id="send-money-form">
+      <input type="text" id="send-recipient" placeholder="Recipient Name" required>
+      <input type="number" id="send-amount" placeholder="Amount (₹)" required min="1" step="0.01">
+      <button type="submit" class="btn primary full-width" id="btn-save-send">Record Transfer</button>
+    </form>
+  </dialog>
   
-  <div id="add-goal-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('add-goal-modal')">&times;</span>
+  <dialog id="add-goal-modal" class="modern-dialog">
+    <div class="dialog-header">
       <h3>Set Savings Goal</h3>
-      <form id="goal-form">
-        <input type="text" id="goal-name" placeholder="e.g. New bicycle" required>
-        <input type="number" id="goal-amount" placeholder="Target Amount (₹)" required min="1" step="1">
-        <button type="submit" class="btn primary full-width">Save Goal</button>
-      </form>
+      <button class="close-btn" onclick="closeModal('add-goal-modal')">&times;</button>
     </div>
-  </div>
+    <form id="goal-form">
+      <input type="text" id="goal-name" placeholder="e.g. New bicycle" required>
+      <input type="number" id="goal-amount" placeholder="Target Amount (₹)" required min="1" step="1">
+      <button type="submit" class="btn primary full-width">Save Goal</button>
+    </form>
+  </dialog>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=4"></script>
 </body>
-</html>
+                                   </html>
+              
